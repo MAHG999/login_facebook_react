@@ -1,25 +1,50 @@
-import logo from './logo.svg';
+
 import './App.css';
+import FacebookLogin from 'react-facebook-login';
+import { useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [UserData, GetUserData] = useState({
+    Name: '',
+    EmailAdress: ''
+  })
+  const [ShowData, GetShowData] = useState(false)
+  const responseFacebook = (response) => {
+    if (response == null) {
+
+    }
+    else {
+      GetShowData(true);
+      //GetUserData.Name(response.name.value)
+      const Name = response.Name;
+      GetUserData.Name = Name;
+      GetUserData.EmailAdress = response.mail;
+
+      console.log(response.Name);
+    }
+  };
+ 
+
+
+return (
+  <div className="App">
+    <br /><br />
+    <FacebookLogin
+      appId=""
+      autoLoad={false}
+      fields="name,email,picture"
+      callback={responseFacebook}
+      //onClick={componentClicked}
+      icon="fa-facebook" />
+    <br /><br />
+    {
+      ShowData === true ? <p>Your name is: {UserData.Name}</p> : null
+    }
+    
+  </div>
+
+
+);
 }
 
 export default App;
